@@ -7,6 +7,8 @@ Project for CS249
 
 2. Then execute “transfer_yelp_restaurant_softmax.py”. This will load the features X_train, X_test, and labels y_train/ y_test and run the classification algorithm.
 
+3. image_data.pkl.gz is not uploaded in the repo due to its large size. You might need to modify line 24 of run_serialize.py to make this work.
+
  
 # Some other stuff
 
