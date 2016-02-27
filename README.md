@@ -1,8 +1,16 @@
 # CS249-Big-Data-Analytics
 Project for CS249
 
-Things yet to be done:
-1. Generating features: Generate features for a subset of images in training and testing restaurant dataset and store in X_train, X_test. (This consumes most of the time —- around 12 hours on CPU —- and is independent of the label).
+# Steps to Run the file
+
+1. First execute “run_serialize.py”. This will generate the CNN codes for the training and testing images and the features will be stored as X_train, y_train, X_test, y_test in the workspace.
+
+2. Then execute “transfer_yelp_restaurant_softmax.py”. This will load the features X_train, X_test, and labels y_train/ y_test and run the classification algorithm.
+
+ 
+# Some other stuff
+
+3. Generating features: Generate features for a subset of images in training and testing restaurant dataset and store in X_train, X_test. (This consumes most of the time —- around 12 hours on CPU —- and is independent of the label).
 
 2. Training the classifier and fine-tuning for a specific attribute: We need to assign labels to the images i.e we need to classify each image as to whether it belongs to “restaurant_is_expensive” (label 1) or doesn’t belong to it (label 1). 
 
