@@ -4,11 +4,12 @@ import os
 import gzip,cPickle
 import random
 import csv
+from sklearn.preprocessing import OneHotEncoder
 
 dirs='/Users/deepakmuralidharan/train_photos/'
 rand_sel_images=[]
 f_names=os.listdir(dirs)
-for i in range(20):
+for i in range(5):
 	choice=random.choice(f_names)
 	choice_num=choice.split('.')
 	rand_sel_images.append(int(choice_num[0]))
@@ -44,13 +45,37 @@ def get_labels(bus_ids):
 		spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 		for row in spamreader:
 		    if i == row[0].split(',')[0]:
-				labels_ids.append(row[0].split(',')[1])
+				t=[]
+				t.append(int(row[0].split(',')[1]))
+				for r in range(1,len(row)):
+					t.append(int(row[r]))
+				labels_ids.append(t)
 
 	return labels_ids
 
 final_labels=get_labels(b_IDS)
 print (final_labels)
+
+big_li = []
+for element in final_labels:
+	li = [0]*9
+	for small_element in element:
+		li[small_element] = 1
+	big_li.append(li)
+
+#big_li = np.asarray(big_li)
+
+#print (big_li[0])
+
+with open('image_to_attr.csv','wb') as csvfile:
+	spamwriter=csv.writer(csvfile,delimiter=' ',quotechar='|')
+	for ele in range(len(rand_sel_images)):
+		spamwriter.writerow([rand_sel_images[ele],big_li[ele]])
+
+
+
 '''
+
 def get_vec(dirs):
 	f_names = os.listdir(dirs)
 	x_data = []
