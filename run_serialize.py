@@ -21,7 +21,7 @@ def serialize_cifar_pool3(X,filename):
 
 def serialize_data():
 
-    with gzip.open('/Users/deepakmuralidharan/flower_photos_copy/image_data.pkl.gz','rb') as k:
+    with gzip.open('/home/pulkit/Downloads/image_data.pkl.gz','rb') as k:
         query=cPickle.load(k)
     k.close()
 
