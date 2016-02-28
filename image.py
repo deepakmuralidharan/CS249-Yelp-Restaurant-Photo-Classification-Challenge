@@ -5,39 +5,51 @@ import gzip,cPickle
 import random
 import csv
 
-dirs=''
+dirs='/Users/deepakmuralidharan/train_photos/'
 rand_sel_images=[]
 f_names=os.listdir(dirs)
-for i in range(25000):
+for i in range(20):
 	choice=random.choice(f_names)
 	choice_num=choice.split('.')
-	rand_sel_images.append(choice_num)
-
+	rand_sel_images.append(int(choice_num[0]))
+#print len(rand_sel_images)
 
 def get_busi_ids(rand_sel_images):
 	bus_ids=[]
-	with open('filename.csv', 'rb') as csvfile:
-    spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-	for i in rand_sel_images:
-		for row in spamreader:
-			if i==row[0].split(',')[0]:
-				bus_ids.append(row[0].split(',')[1])
-				break
+	count=1
+
+	for k in range(len(rand_sel_images)):
+		i = rand_sel_images[k]
+		print(i)
+		with open('/Users/deepakmuralidharan/Downloads/train_photo_to_biz_ids.csv', 'rb') as csvfile:
+			spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+			for row in spamreader:
+				temp = int(row[0].split(',')[0])
+				if i == temp:
+					#print i
+					#print row[0].split(',')[0]
+					bus_ids.append(row[0].split(',')[1])
+					break
+
+	return bus_ids
 
 b_IDS=get_busi_ids(rand_sel_images)
+print(b_IDS)
+
 
 def get_labels(bus_ids):
 	labels_ids=[]
-	with open('filename.csv', 'rb') as csvfile:
-	spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 	for i in bus_ids:
+	    with open('/Users/deepakmuralidharan/Downloads/train.csv', 'rb') as csvfile:
+		spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 		for row in spamreader:
-			if i=row[0].split(',')[0]:
+		    if i == row[0].split(',')[0]:
 				labels_ids.append(row[0].split(',')[1])
-				break
+
+	return labels_ids
 
 final_labels=get_labels(b_IDS)
-
+print (final_labels)
 '''
 def get_vec(dirs):
 	f_names = os.listdir(dirs)
