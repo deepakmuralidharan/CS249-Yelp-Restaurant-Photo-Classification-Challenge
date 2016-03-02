@@ -13,6 +13,8 @@ import pandas as pd
 import gzip,cPickle
 import os
 
+number_of_folder = 2
+
 def load_pool3_data():
     """ Update these file names after you serialize pool_3 values """
 
@@ -22,9 +24,37 @@ def load_pool3_data():
     y_train_file = 'y_train.npy'
     return np.load(X_train_file), np.load(y_train_file), np.load(X_test_file), np.load(y_test_file)
 
-classes = np.array(['flower1', 'flower2', 'flower3', 'flower4', 'flower5'])
+classes = np.array(['not-good','good'])
+
+name='/Users/deepakmuralidharan/pickle_sample_files/sample_data1.pkl.gz'
+with gzip.open(name,'rb') as k:
+    query=cPickle.load(k)
+k.close()
+X_train_orig = query[0]
+y_train_orig = query[1]
+ #''' CHANGE FOR DIFFERENT LABEL '''
+
+for k in range(1,number_of_folder):
+    name='/Users/deepakmuralidharan/pickle_sample_files/sample_data'+str(k+1)+'.pkl.gz'
+    with gzip.open(name,'rb') as k:
+        query=cPickle.load(k)
+    k.close()
+    X_train_orig=np.vstack((X_train_orig,query[0]))
+    y_train_orig=np.vstack((y_train_orig,query[1]))  #''' CHANGE FOR DIFFERENT LABEL '''
+
+X_test_orig = X_train_orig
+y_test_orig = y_train_orig
+
+
+y_train_orig = y_train_orig[:,1]
+y_test_orig = y_test_orig[:,1]
+
+
 
 X_train_pool3, y_train_pool3, X_test_pool3, y_test_pool3 = load_pool3_data()
+y_train_pool3 = y_train_pool3[:,1]
+y_test_pool3 = y_test_pool3[:,1]
+
 print(X_train_pool3.shape)
 y_train_pool3 = np.transpose(y_train_pool3)
 y_test_pool3 = np.transpose(y_test_pool3)
@@ -220,4 +250,4 @@ def plot_tsne(X_input_pool3, Y_input,n=10000):
 # plot_tsne(X_train_pool3,y_train_pool3)
 sess = tf.InteractiveSession()
 do_train(sess,X_train,Y_train,X_validation,y_validation)
-# show_test_images(sess,X_test_orig, X_test_pool3, y_test_orig)
+show_test_images(sess,X_test_orig, X_test_pool3, y_test_orig)

@@ -5,11 +5,11 @@ import random
 import csv
 import shutil
 
-sample_size=10         # change this to 250
-no_of_folder=5          # change  this to 100'''
+sample_size= 250         # change this to 250
+no_of_folder= 100         # change  this to 100'''
 #dirs='/Users/deepakmuralidharan/train_photos/'
-dirs='/home/pulkit/codes/'                       #directory where training images are stored '''
-sample_dirs='/home/pulkit/samples/'              # directory for creating 100 folders    '''
+dirs='/Users/deepakmuralidharan/test_photos/'                       #directory where training images are stored '''
+sample_dirs='/Users/deepakmuralidharan/sample_test/'              # directory for creating 100 folders    '''
 for j in range(no_of_folder):
     name='sample'+str(j+1)
     path=sample_dirs+name
@@ -21,6 +21,7 @@ f_names=os.listdir(dirs)
 print "Total number of files in the folder are "+str(len(f_names))
 
 for j in range(no_of_folder):
+    print(j)
     choice=random.sample(xrange(len(f_names)), sample_size)
     name='sample'+str(j+1)
     path=sample_dirs+name
