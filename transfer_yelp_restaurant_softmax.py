@@ -13,7 +13,7 @@ import pandas as pd
 import gzip,cPickle
 import os
 
-number_of_folder = 2
+number_of_folder = 100
 
 def load_pool3_data():
     """ Update these file names after you serialize pool_3 values """
