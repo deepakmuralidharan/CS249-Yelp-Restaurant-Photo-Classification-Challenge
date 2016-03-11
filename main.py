@@ -14,7 +14,7 @@ import os
 
 number_of_folder = 100
 
-def load_pool3_data():                                                  """ load pre-computed CNN codes  """
+def load_pool3_data():                                                  # load pre-computed CNN codes
     """ Update these file names after you serialize pool_3 values """
 
     X_test_file = 'conc_CNN_code.npy'
@@ -23,14 +23,14 @@ def load_pool3_data():                                                  """ load
     y_train_file = 'conc_CNN_label.npy'
     return np.load(X_train_file), np.load(y_train_file), np.load(X_test_file), np.load(y_test_file)
 
-classes = np.array(['not-good','good'])                             """ name of the classes """
+classes = np.array(['not-good','good'])                             # name of the classes
 
 X_train_pool, y_train_pool, X_test_pool, y_test_pool = load_pool3_data()
 
-X_train_pool3 = X_train_pool[31250:231251,:]                            """creating the training data and testing data for a specifc label"""
-y_train_pool3 = y_train_pool[31250:231251,7]                            """ change the label here 0,1,2,3,4,5,6,7,8 """    
+X_train_pool3 = X_train_pool[31250:231251,:]                            #creating the training data and testing data for a specifc label
+y_train_pool3 = y_train_pool[31250:231251,7]                            #change the label here 0,1,2,3,4,5,6,7,8
 X_test_pool3 = X_train_pool[0:31250,:]
-y_test_pool3 = y_train_pool[0:31250,7]                                  """ change the label here 0,1,2,3,4,5,6,7,8 """
+y_test_pool3 = y_train_pool[0:31250,7]                                  #change the label here 0,1,2,3,4,5,6,7,8
 
 print(X_train_pool3.shape)
 y_train_pool3 = np.transpose(y_train_pool3)
@@ -38,15 +38,10 @@ y_test_pool3 = np.transpose(y_test_pool3)
 print(y_train_pool3.shape)
 X_train, X_validation, Y_train, y_validation = cross_validation.train_test_split(X_train_pool3, y_train_pool3, test_size=0.30, random_state=40)
 
-
 print 'Training data shape: ', X_train_pool3.shape
 print 'Training labels shape: ', y_train_pool3.shape
 print 'Test data shape: ', X_test_pool3.shape
 print 'Test labels shape: ', y_test_pool3.shape
-
-#
-# Tensorflow stuff
-# #
 
 FLAGS = tf.app.flags.FLAGS
 BOTTLENECK_TENSOR_NAME = 'pool_3/_reshape'
@@ -61,9 +56,7 @@ tf.app.flags.DEFINE_string('final_tensor_name', 'final_result',
 tf.app.flags.DEFINE_integer('eval_step_interval', 10,
                             """How often to evaluate the training results.""")
 
-
-
-# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/image_retraining/retrain.py
+# obtained from the tutorial on Tensorflow
 def ensure_name_has_port(tensor_name):
     """Makes sure that there's a port number at the end of the tensor name.
     Args:
@@ -77,7 +70,7 @@ def ensure_name_has_port(tensor_name):
         name_with_port = tensor_name
     return name_with_port
 
-# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/image_retraining/retrain.py
+# obtained from the tutorial on Tensorflow
 def add_final_training_ops(graph, class_count, final_tensor_name,
                            ground_truth_tensor_name):
     """Adds a new softmax and fully-connected layer for training.
@@ -115,7 +108,7 @@ def add_final_training_ops(graph, class_count, final_tensor_name,
         cross_entropy_mean)
     return train_step, cross_entropy_mean
 
-# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/image_retraining/retrain.py
+# obtained from the tutorial on Tensorflow
 def add_evaluation_step(graph, final_tensor_name, ground_truth_tensor_name):
     """Inserts the operations we need to evaluate the accuracy of our results.
     Args:
@@ -154,7 +147,6 @@ def do_train(sess,X_input, Y_input, X_validation, Y_validation):
 
     evaluation_step = add_evaluation_step(graph, FLAGS.final_tensor_name, ground_truth_tensor_name)
 
-    # Get some layers we'll need to access during training.
     bottleneck_tensor = graph.get_tensor_by_name(ensure_name_has_port(BOTTLENECK_TENSOR_NAME))
     ground_truth_tensor = graph.get_tensor_by_name(ensure_name_has_port(ground_truth_tensor_name))
 
@@ -173,7 +165,7 @@ def do_train(sess,X_input, Y_input, X_validation, Y_validation):
             sess.run(train_step,
                      feed_dict={bottleneck_tensor: Xi,
                                 ground_truth_tensor: Yi})
-            # Every so often, print out how well the graph is training.
+
             is_last_step = (i + 1 == FLAGS.how_many_training_steps)
             if (i % FLAGS.eval_step_interval) == 0 or is_last_step:
                 train_accuracy, cross_entropy_value = sess.run(
@@ -191,7 +183,9 @@ def do_train(sess,X_input, Y_input, X_validation, Y_validation):
                 validation_acc_vector.append(validation_accuracy * 100)
             i+=1
     print("cross entropy vector length is "+str(len(cross_entropy_vector)))
-    x_ax = np.arange(0,len(cross_entropy_vector))                           """ plotting the training accuarcy vs iterations"""
+
+    """ plotting the training accuarcy vs iterations """
+    x_ax = np.arange(0,len(cross_entropy_vector))
     fig, ax = plt.subplots(nrows = 1, ncols = 1)
     ax.plot(x_ax, training_acc_vector)
     plt.xlabel('Iterations')
@@ -199,8 +193,9 @@ def do_train(sess,X_input, Y_input, X_validation, Y_validation):
     plt.title('Training Accuracy vs Number of Iterations')
     fig.savefig('training_acc.jpg')
     plt.close(fig)
-    
-    x_ax = np.arange(0,len(cross_entropy_vector))                       """ plotting the validation accuarcy vs iterations"""
+
+    """ plotting the validation accuarcy vs iterations """
+    x_ax = np.arange(0,len(cross_entropy_vector))
     fig, ax = plt.subplots(nrows = 1, ncols = 1)
     ax.plot(x_ax, validation_acc_vector)
     plt.xlabel('Iterations')
@@ -208,8 +203,9 @@ def do_train(sess,X_input, Y_input, X_validation, Y_validation):
     plt.title('Validation Accuracy vs Number of Iterations')
     fig.savefig('validation_acc.jpg')
     plt.close(fig)
- 
-    x_ax = np.arange(0,len(cross_entropy_vector))                       """ plotting the cross-entropy error vs iterations"""
+
+    """ plotting the cross-entropy error vs iterations """
+    x_ax = np.arange(0,len(cross_entropy_vector))
     fig, ax = plt.subplots(nrows = 1, ncols = 1)
     ax.plot(x_ax, cross_entropy_vector)
     plt.xlabel('Iterations')
@@ -218,13 +214,14 @@ def do_train(sess,X_input, Y_input, X_validation, Y_validation):
     fig.savefig('cross_entropy_value.jpg')
     plt.close(fig)
 
-    test_accuracy = sess.run(                                       """ calculating the test_set accuracy"""    
+    """ calculating the test_set accuracy """
+    test_accuracy = sess.run(
         evaluation_step,
         feed_dict={bottleneck_tensor: X_test_pool3,
                    ground_truth_tensor: encode_one_hot(len(classes), y_test_pool3)})
     print('Final test accuracy = %.1f%%' % (test_accuracy * 100))
 
-def show_test_images(sess, X_features, Y):
+def predicted_vs_ground(sess, X_features, Y):
     n = X_features.shape[0]
 
     def rand_ordering():
@@ -241,13 +238,13 @@ def show_test_images(sess, X_features, Y):
                          feed_dict={'pool_3/_reshape:0': Xi_features})
         predicted_class.append(np.argmax(probs))
         truth_class.append(Y[i])
-    predicted_class = np.asarray(predicted_class)                   """ saving the predicted class for F1 score """
+    predicted_class = np.asarray(predicted_class)                   # saving the predicted class for F1 score
     np.save('predicted_class.npy',predicted_class)
     truth_class=np.asarray(truth_class)
-    np.save('truth_class.npy',truth_class)                          """ saving the ground truth""" 
-       
+    np.save('truth_class.npy',truth_class)                          # saving the ground truth
+
 
 
 sess = tf.InteractiveSession()
 do_train(sess,X_train,Y_train,X_validation,y_validation)
-show_test_images(sess,X_test_pool3, y_test_pool3)
+predicted_vs_ground(sess,X_test_pool3, y_test_pool3)
