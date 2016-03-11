@@ -13,7 +13,7 @@ import pandas as pd
 import gzip,cPickle
 import os
 
-number_of_folder = 100
+number_of_folder = 1000
 
 def serialize_cifar_pool3(X,filename):
     print 'About to generate file: %s' % filename
@@ -23,7 +23,7 @@ def serialize_cifar_pool3(X,filename):
 
 def serialize_data():
 
-    name='/Users/deepakmuralidharan/pickle_sample_files/sample_data1.pkl.gz'
+    '''name='/Users/deepakmuralidharan/pickle_sample_files/sample_data1.pkl.gz'
     with gzip.open(name,'rb') as k:
         query=cPickle.load(k)
     k.close()
@@ -36,13 +36,20 @@ def serialize_data():
             query=cPickle.load(k)
         k.close()
         X_train=np.vstack((X_train,query[0]))
-        y_train=np.vstack((y_train,query[1]))
+        y_train=np.vstack((y_train,query[1]))'''
 
-    X_test = X_train
-    y_test = y_train
-    serialize_cifar_pool3(X_train, 'X_train')
-    serialize_cifar_pool3(X_test, 'X_test')
-    np.save('y_train',y_train)
-    np.save('y_test',y_test)
+    for k in range(number_of_folder):
+        name='/Users/deepakmuralidharan/pickle_sample_files/sample_data'+str(k+1)+'.npz'
+        if(os.path.isfile(name)):                                                                """Check if file exists """
+            query=np.load(name)
+            X_train=query['X_train']
+            y_train=query['y_train']           
 
+            X_test = X_train
+            y_test = y_train
+            serialize_cifar_pool3(X_train, 'X_train'+str(k+1))                                  """ Next four lines are changed to store CNN codes with different names """
+            serialize_cifar_pool3(X_test, 'X_test'+str(k+1))
+            np.save('y_train'+str(k+1),y_train)
+            np.save('y_test'+str(k+1),y_test)
+                                                                                   
 serialize_data()
