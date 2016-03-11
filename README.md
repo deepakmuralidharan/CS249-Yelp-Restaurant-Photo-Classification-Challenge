@@ -1,5 +1,7 @@
 # Yelp Restaurant Photo Classification using Convolutional Neural Network: A transfer learning based approach (Course Project for CS249)
 
+# Project Members: Deepak Muralidharan, Pulkit Aggarwal, Usha Amrutha
+
 Useful Terms-
 CNN Codes -> output of the penultimate layer(size 1x1x2048), that will be given as the input to the last classification layer.
 one-hot encoded vector -> If the labels assigned to an image are 2,5,7 then the one-hot encoded vector for that image is written as [0,0,1,0,0,1,0,1,0] i.e place a 1 when the label is present and 0 when the label is not.
