@@ -1,5 +1,6 @@
 """
 Yelp Restaurant Photo Classification Challenge
+Authors: Deepak Muralidharan, Pulkit Aggarwal, Usha Nookala, Anahita Hosseini
 """
 import tensorflow as tf
 import numpy as np
