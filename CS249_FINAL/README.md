@@ -14,6 +14,7 @@ d) The predicted labels and ground truth were stored separately and were used to
 
 
 Steps to follow-
+
 1.Run 'new_image_run_serialize.py' for step (a) of methodology.Set the correct path of the trainig images on line number 78.This will produce 925 .npy files for one hot encoded labels in the same folder like y_train1.npy,y_train2.npy,...,y_traink.npy and 925 .npy files for CNN codes like X_train1.npy,X_train2.npy,...,X_traink.npy.Since this takes a lot of time to run like 26 hours , we have given the concatenated file i.e. the output of step (b) of the methodology.
 
 2.Run 'main.py' 9 times for each of the label.The label number has to be changed at line numbers 31 and 33 of main.py for running it 9 times for different labels.This will generate the plots for cross-entropy values,training accuracy and validation accuracy.It will also store 'predicted_class.npy' and 'truth_class.npy'.Since running this file 9 times for different labels takes a lot of time, we have provided with the predicted_class.npy and truth_class.npy for the all the nine labels in the folder 'files_for_f1_calc'.
