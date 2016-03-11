@@ -1,4 +1,4 @@
-# YELP RESTAURANT PHOTO CLASSIFICATION CHALLENGE (COURSE PROJECT FOR CS249)
+# Yelp Restaurant Photo Classification using Convolutional Neural Network: A transfer learning based approach (Course Project for CS249)
 
 Useful Terms-
 CNN Codes -> output of the penultimate layer(size 1x1x2048), that will be given as the input to the last classification layer.
