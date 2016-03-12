@@ -1,6 +1,6 @@
 # Yelp Restaurant Photo Classification using Convolutional Neural Network: A transfer learning based approach (Course Project for CS249)
 
-# Project Members: Deepak Muralidharan, Pulkit Aggarwal, Usha Amrutha, Anahita Hosseini
+Project Members: Deepak Muralidharan, Pulkit Aggarwal, Usha Amrutha, Anahita Hosseini
 
 Useful Terms-
 CNN Codes -> output of the penultimate layer(size 1x1x2048), that will be given as the input to the last classification layer.
